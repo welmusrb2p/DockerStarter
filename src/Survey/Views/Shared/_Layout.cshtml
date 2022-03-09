@@ -1,0 +1,124 @@
+﻿@using Microsoft.AspNetCore.Localization
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var lcid = requestCulture.RequestCulture.UICulture.LCID;
+}
+
+<!DOCTYPE html>
+@*<html lang="en">*@
+
+<html lang="@(lcid == 1? Survey.Web.Infrastructure.SupportedLanguage.ar:Survey.Web.Infrastructure.SupportedLanguage.en)"
+      dir="@(lcid == 1? "rtl":"ltr")">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Insurance Survey">
+    <title> @Resource.GetMessage("PerfectPresentation")</title>
+
+    <!-- Favicons-->
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="~/Content/img/apple-touch-icon-72x72-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="~/Content/img/apple-touch-icon-114x114-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="~/Content/img/apple-touch-icon-144x144-precomposed.png">
+
+    <!-- GOOGLE WEB FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Caveat|Poppins:300,400,500,600,700&display=swap" rel="stylesheet">
+
+    <!-- BASE CSS -->
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="~/Content/css/vendors.css" rel="stylesheet">
+
+    <link rel="stylesheet" id="styleLang" href="~/Content/css/style.css" />
+
+    <!-- YOUR CUSTOM CSS -->
+    <link href="~/Content/css/custom.css" rel="stylesheet">
+
+    <script type="text/javascript">
+        window.onload = function () {
+            setLanguage('@lcid');
+        }
+        function setLanguage(lang) {
+            if (lang == 1) {
+                $("html").attr("lang", '@Survey.Web.Infrastructure.SupportedLanguage.ar');
+                $("html").attr("dir", 'rtl');
+                //$("link[id='styleLang']").attr("href", '../Content/css/style_ar.css');
+            }
+            else {
+                $("html").attr("lang", '@Survey.Web.Infrastructure.SupportedLanguage.en');
+                $("html").attr("dir", 'ltr');
+               //$("link[id='styleLang']").attr("href", '../Content/css/style_en.css');
+            }
+        }
+    </script>
+
+</head>
+
+<body class="style_2">
+
+    <div id="preloader">
+        <div data-loader="circle-side"></div>
+    </div><!-- /Preload -->
+
+    <div id="loader_form">
+        <div data-loader="circle-side-2"></div>
+    </div><!-- /loader_form -->
+
+    <header>
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-5">
+
+                    <a href="index.html"><img class="img-fluid" src="https://admin.2p.com.sa/Portalimages/Logos/2p_logoperfect(1).png" alt=""></a>
+
+                </div>
+                <div class="col-7">
+                    <div id="social">
+
+                        <form id="frmChangeLanguage" asp-action="ChangeLanguage" asp-controller="Home"
+                              method="post" role="form">
+                            <div class="form-group dropdown langbtn" href="#" onclick="document.getElementById('frmChangeLanguage').submit();">
+                                @if (@lcid != 1)
+                                {
+                                    <img src="~/Content/img/arlangicon.svg" class="img-fluid img_lang" alt="lang" style="cursor: pointer;" />
+                                }
+                                else
+                                {
+                                    <img src="~/Content/img/enlangicon.svg" class="img-fluid img_lang" alt="lang" style="cursor: pointer;" />
+                                }
+                            </div>
+                            <input type="hidden" value="@(lcid != 1 ? @Survey.Web.Infrastructure.SupportedLanguage.ar : @Survey.Web.Infrastructure.SupportedLanguage.en)" name="culture" />
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+  
+    @RenderBody()
+    <div class="modal fade" id="terms-txt" tabindex="-1" role="dialog" aria-labelledby="termsLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        </div>
+    </div>
+   
+    <!-- COMMON SCRIPTS -->
+    <script src="~/Scripts/jquery-3.6.0.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Content/js/float-labels.js"></script>
+    <script src="~/Content/js/functions.js"></script>
+
+    <!-- Wizard script -->
+    <script src="~/Content/js/jquery-ui-1.8.22.min.js"></script>
+    <script src="~/Content/js/jquery.wizard.js"></script>
+    <script src="~/Content/js/survey_func.js"></script>
+
+</body>
+</html>

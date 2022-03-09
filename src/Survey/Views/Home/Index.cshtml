@@ -1,0 +1,89 @@
+﻿@model List<Survey.Models.QuestionViewModel>;
+
+@using Microsoft.AspNetCore.Localization
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var lcid = requestCulture.RequestCulture.UICulture.LCID;
+}
+
+
+<div class="wrapper_centering">
+    <div class="container_centering">
+        <div class="container">
+            <div class="row justify-content-between">
+
+                <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 d-flex align-items-center ">
+                    <div class="main_title_1 text-right">
+                        <h3><img src="~/Content/img/main_icon_1.svg" width="80" height="80" alt=""> @Resource.GetMessage("Survey") </h3>
+                        <p>@Resource.GetMessage("SurveyBody")</p>
+                        <p><em> @Resource.GetMessage("HRManagement")</em></p>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                    <div id="wizard_container">
+                        <div id="top-wizard">
+                            <div id="progressbar"></div>
+                        </div>
+                        <!-- /top-wizard -->
+                        <form id="wrapped" method="POST" action="/home/SaveSurvey" autocomplete="off">
+                            <input id="website" name="website" type="text" value="">
+
+                            <div id="middle-wizard">
+                                @for (int i = 0; i < Model.Count; i++)
+                                {
+
+                                    var className = "step";
+                                    if ((i + 1) == Model.Count)
+                                    {
+
+                                        className += " submit";
+                                    }
+
+                                    <div class="@className">
+
+                                        <h3 class="main_question mb-4">  @(lcid == 1? Model[i].NameAR : Model[i].NameEN)</h3>
+
+                                        <div class="review_block">
+
+                                            <ul>
+                                                @foreach (var answer in @Model[i].Answers)
+                                                {
+
+                                                    <li>
+                                                        <div class="checkbox_radio_container">
+
+                                                            <input type="radio" id=@answer.Id name="question@(answer.QuesionId)"
+                                                                   class="required" value=@answer.Id onchange="getVals(this, 'question@(answer.QuesionId)');">
+
+                                                            <label class="radio" for=@answer.Id></label>
+
+                                                            <label for="no" class="wrapper">@(lcid == 1? answer.NameAR:answer.NameEN)</label>
+                                                        </div>
+                                                    </li>
+
+                                                }
+
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                }
+
+                            </div>
+
+                            <div id="bottom-wizard">
+                                <button type="button" name="backward" class="backward">@Resource.GetMessage("Previous")</button>
+                                <button type="button" name="forward" class="forward">@Resource.GetMessage("Next")</button>
+                                <button type="submit" name="process" class="submit">@Resource.GetMessage("Sending")</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+    </footer>
+</div>
